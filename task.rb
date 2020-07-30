@@ -1,6 +1,6 @@
 # 課題の回答は このファイル をご利用下さい。
 # 回答の出力を確認される際は，「ruby main.rb」をターミナルから実行して下さい。
-
+require "pry"
 def q1
   names = ["田中", "佐藤", "佐々木", "高橋"]
 
@@ -147,12 +147,10 @@ end
 
 class UserQ17
   # 以下に回答を記載
-  # セッター&ゲッター
-  attr_accessor :name, :age, :gender
-  def initialize(name:, age:, gender:)
-    @name = name
-    @age = age
-    @gender = gender
+  def initialize(**options)
+    @name = options[:name]
+    @age = options[:age]
+    @gender = options[:gender]
   end
 
   def info
@@ -174,17 +172,16 @@ end
 
 class UserQ18
   # 以下に回答を記載
-  attr_accessor :name, :age
-  def initialize(name:, age:)
-    @name = name
-    @age = age
+  def initialize(**options)
+    @name = options[:name]
+    @age = options[:age]
   end
 
   def introduce
-    if @age == 32
-      puts "こんにちは，#{name}と申します。宜しくお願いいたします。"
-    elsif @age == 10
-      puts "はいさいまいど〜，#{name}です！！！"
+    if @age.between?(1, 19)
+      puts "はいさいまいど〜，#{@name}です！！！"
+    else
+      puts "こんにちは，#{@name}と申します。宜しくお願いいたします。"
     end
   end
 end
@@ -200,7 +197,7 @@ end
 
 class Item
   # 以下を修正して下さい
-  attr_accessor :name
+  attr_reader :name
   def initialize(name:)
     @name = name
   end
@@ -214,32 +211,32 @@ end
 
 class UserQ20
   # 以下に回答を記載
-  attr_accessor :name, :age
-  def initialize(name:, age:)
-    @name = name
-    @age = age
+  attr_reader :name, :age
+  def initialize(**options)
+    @name = options[:name]
+    @age = options[:age]
   end
 end
 
 class Zoo
   # 以下に回答を記載
-  attr_accessor :name, :entry_fee
-  def initialize(name:, entry_fee:)
-    @name = name
-    @entry_fee = entry_fee
+  def initialize(**options)
+    @name = options[:name]
+    @entry_fee = options[:entry_fee]
   end
 
   def info_entry_fee(user)
-    case user.age
+    entry_fee = case user.age
     when 0..5
-      puts "#{user.name}さんの入場料金は #{entry_fee[:infant]} 円です。"
+      @entry_fee[:infant]
     when 6..12
-      puts "#{user.name}さんの入場料金は #{entry_fee[:children]} 円です。"
+      @entry_fee[:children]
     when 13..64
-      puts "#{user.name}さんの入場料金は #{entry_fee[:adult]} 円です。"
-    when 65..120
-      puts "#{user.name}さんの入場料金は #{entry_fee[:senior]} 円です。"
+      @entry_fee[:adult]
+    else
+      @entry_fee[:senior]
     end
+      puts "#{user.name}さんの入場料金は #{entry_fee} 円です。"
   end
 end
 
